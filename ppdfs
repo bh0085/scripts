@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+old_IFS=$IFS
+IFS=$'\n'
+echo "Finding downloaded .pdfs less than five minutes old"
+for f in `find ~/Downloads -mmin -400 -name '*pdf'`;
+do
+    scp "$f" tin:print/incoming/"\"""`basename $f`""\""
+done
+
+echo
+echo "printing:"
+ssh tin  "ls print/; 
+IFS=\$'\n'; 
+ls print/incoming; 
+for f in \`find print/incoming -name '*pdf'\`; 
+do lpr -P sunflower \"\$f\"; cp \"\$f\" print/old/\"\`basename \\\"\$f\\\"\`\" ; 
+done; 
+"
+
+IFS=$old_IFS

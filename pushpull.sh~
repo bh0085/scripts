@@ -1,0 +1,4 @@
+#/usr/bin/env bash
+
+dosh
+expect -c 'spawn ssh tin; expect >; send ish\n; send doll\n; send logout\n; expect closed.\n; send logout\n;  interact'
